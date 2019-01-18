@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.Manifest;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiConfiguration;
@@ -40,7 +41,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.SupplicantState;
 import android.content.Context;
 import android.util.Log;
-
 
 public class cordovaNetworkManager extends CordovaPlugin {
 
@@ -70,6 +70,9 @@ public class cordovaNetworkManager extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext)
                             throws JSONException {
+        if (!PermissionHelper.hasPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            PermissionHelper.requestPermission(this, 0, Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
 
         this.callbackContext = callbackContext;
 
